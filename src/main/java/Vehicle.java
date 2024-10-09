@@ -13,7 +13,14 @@ public abstract class Vehicle {
     private double emissions;
     private Driver driver;
     private boolean streetLegal;
-    private int milage;
+    private int mileage;
+
+    public Vehicle(String licensePlate, double emissions, int mileage) {
+        this.licensePlate = licensePlate;
+        this.emissions = emissions;
+        this.mileage = mileage;
+        this.streetLegal = isStreetLegal();
+    }
 
     public boolean isStreetLegal(){
         return true;

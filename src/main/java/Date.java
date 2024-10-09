@@ -200,4 +200,18 @@ public class Date {
                 return "Error"; //to keep the compiler happy
         }
     }
+
+    public int compareTo(Date otherDate) {
+        if (this.year != otherDate.year) {
+            return this.year - otherDate.year;
+        } else if (this.getMonth() != otherDate.getMonth()) {
+            return this.getMonth() - otherDate.getMonth();
+        } else {
+            return this.day - otherDate.day;
+        }
+    }
+
+    public boolean isBefore(Date otherDate){
+        return this.precedes(otherDate);
+    }
 }
