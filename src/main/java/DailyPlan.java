@@ -101,6 +101,8 @@ public class DailyPlan {
         }
     }
 
+
+
     public String toString(){
         return dateOfWorkOrder + "\n"
                 + "Cars requested: " + carNums + ", Trucks requested: " + truckNums + "\n"
@@ -108,25 +110,33 @@ public class DailyPlan {
                 seniorityCheck();
     }
 
+
+    // in this method we are going to check if the order was fulfilled correctly or not
     public String orderFulfilled() {
         // Sort drivers by hire date
         Collections.sort(drivers, (d1, d2) -> d1.getHireDate().compareTo(d2.getHireDate()));
 
-
+        // keep track of how many vehicles of each type are assigned
         int carsAssigned = 0;
         int trucksAssigned = 0;
 
+        // for each vehicle in the arraylist of vehicles, make each vehicle have a assignedDriver value of null
         for (Vehicle vehicle : vehicles) {
             Driver assignedDriver = null;
 
+            // then for each driver in driver arraylist, check if the driver has a valid license, and if the vehicle we
+            // are currently on is a truck, if so then we need to check if the current driver has a CDL to drive the truck,
+            // or if the the current vehicle is a car
+            // then for the current vehicle, make the assignedDriver value equal to the current driver
             for (Driver driver : drivers) {
-                if (driver.isValidLicense(new Date()) &&
-                        ((vehicle instanceof Truck && driver.isHasCDL()) || vehicle instanceof Car)) {
+                if (driver.isValidLicense(new Date()) && ((vehicle instanceof Truck && driver.isHasCDL()) || vehicle instanceof Car)) {
                     assignedDriver = driver;
                     break;
                 }
             }
 
+            // if the current vehicle has an assignedDriver value, then set the driver for the current driver,
+            // if the current vehicle is a car, then iterate carsAssigned, if it is a truck then iterate truckAssigned
             if (assignedDriver != null) {
                 vehicle.setDriver(assignedDriver);
                 if (vehicle instanceof Car) {
@@ -137,6 +147,10 @@ public class DailyPlan {
             }
         }
 
+        // for the toString, if we have enough cars assigned for the carNums variable we got from the txt file,
+        // and we have enough trucks assigned for the truckNums variable we got from the txt file,
+        // if both are true, then return that we fulfilled the order
+        // other return we did not fulfill the order
         boolean orderFulfilled = (carsAssigned >= carNums) && (trucksAssigned >= truckNums);
         if (orderFulfilled) {
             return "Order fulfilled \n";
@@ -220,7 +234,7 @@ public class DailyPlan {
         }
 
         if (allLicensesValid) {
-            details.append("All drivers have valid licenses.");
+            details.append("\nAll drivers have valid licenses.\n");
         }
 
         return details.toString();

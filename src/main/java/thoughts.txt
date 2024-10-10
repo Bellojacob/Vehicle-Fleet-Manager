@@ -1,0 +1,6 @@
+Need to first assign drivers to each vehicle
+in order to drive a truck, need to have a cdl
+so we should make a method to have qualified drivers for the specified vehicle
+we can then check to find the most senior driver with a valid license, they will have first priority
+then for the amount of requested cars, we can find everyone who is qualified to drive the current car
+then we should assign someone to the car based on who was hired first

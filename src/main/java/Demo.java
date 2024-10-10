@@ -1,6 +1,6 @@
 public class Demo {
     public static void main(String[] args) {
-        DailyPlan w1 = new DailyPlan("resources/workOrder1.txt");
+        DailyPlan w1 = new DailyPlan("resources/myTestCase.txt");
         System.out.println("REPORT");
         System.out.println(w1);
         System.out.println("DETAILS");
