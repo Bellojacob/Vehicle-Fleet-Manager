@@ -211,7 +211,7 @@ public class Date {
         }
     }
 
-    public boolean isBefore(Date otherDate){
-        return this.precedes(otherDate);
+    public boolean isBefore(Date otherDate) {
+        return this.compareTo(otherDate) < 0;
     }
 }

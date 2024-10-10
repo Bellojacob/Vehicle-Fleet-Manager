@@ -22,7 +22,27 @@ public abstract class Vehicle {
         this.streetLegal = isStreetLegal();
     }
 
-    public boolean isStreetLegal(){
-        return true;
+    public abstract boolean isStreetLegal();
+
+    public double getEmissions() {
+        return emissions;
+    }
+
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
+    public int getMileage() {
+        return mileage;
     }
 }
+
+

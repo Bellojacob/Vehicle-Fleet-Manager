@@ -16,12 +16,24 @@ public class Driver extends Person implements Comparable<Driver>{
         this.dLicense = dLicense;
     }
 
-    public int compareTo(Driver otherDriver){
+    public int compareTo(Driver otherDriver) {
         return this.getHireDate().compareTo(otherDriver.getHireDate());
     }
 
     public boolean isValidLicense(Date currentDate){
         return currentDate.isBefore(licenseExp);
 
+    }
+
+    public Date getLicenseExp() {
+        return licenseExp;
+    }
+
+    public boolean isHasCDL() {
+        return hasCDL;
+    }
+
+    public String getdLicense() {
+        return dLicense;
     }
 }

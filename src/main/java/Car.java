@@ -2,7 +2,7 @@
 //+ EMISSIONS_LIMIT : double
 //+ isStreetLegal() : boolean
 
-public class Car extends Vehicle{
+public class Car extends Vehicle {
     private int numPassengers;
     public final double EMISSIONS_LIMIT = 350; // grams
 
@@ -11,7 +11,29 @@ public class Car extends Vehicle{
         this.numPassengers = numPassengers;
     }
 
-    public boolean isStreetLegal(){
-        return this.emissions <= EMISSIONS_LIMIT;
+    @Override
+    public boolean isStreetLegal() {
+        // emission limit in kg should be .35 kg
+        double emissionLimitInKg = (double)EMISSIONS_LIMIT / 1000;
+        System.out.println("The emission limit is " + emissionLimitInKg + " kilograms");
+        // let's say 77 kg is passed in
+
+        double thisEmission = this.getEmissions() / 1000;
+        System.out.println("This car ("+this.getLicensePlate()+") emits this much pollution: " + thisEmission);
+        System.out.println("Car " + this.getLicensePlate() + " Emissions: " + thisEmission + " kg, Limit: " + emissionLimitInKg + " kg");
+        if (thisEmission <= emissionLimitInKg){
+            System.out.println("This car should be good to go \n");
+        } else {
+            System.out.println("This car fails the emission test \n");
+        }
+        return thisEmission <= emissionLimitInKg;
+
+//        double emissionsInGrams = this.getEmissions() * 1000.0; // Convert emissions from kg to grams
+//        System.out.println("Car " + this.getLicensePlate() + " Emissions: " + emissionsInGrams + " grams, Limit: " + EMISSIONS_LIMIT + " grams");
+//        return emissionsInGrams <= EMISSIONS_LIMIT;
+    }
+
+    public int getNumPassengers() {
+        return numPassengers;
     }
 }
