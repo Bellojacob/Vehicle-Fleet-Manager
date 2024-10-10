@@ -18,17 +18,17 @@ public class Truck extends Vehicle {
     public boolean isStreetLegal() {
         // emission limit in kg should be .5 kg
         double emissionLimitInKg = (double) EMISSIONS_LIMIT / 1000;
-        System.out.println("The emission limit for trucks is " + emissionLimitInKg);
+//        System.out.println("The emission limit for trucks is " + emissionLimitInKg);
         // let's say 77 kg is passed in
 
         double thisEmission = this.getEmissions() / 1000;
-        System.out.println("This truck ("+this.getLicensePlate()+") has this much emissions: " + thisEmission);
-
-        if (thisEmission <= emissionLimitInKg){
-            System.out.println("This truck passes the emission limit \n");
-        } else {
-            System.out.println("This truck fails the emission test \n");
-        }
+//        System.out.println("This truck ("+this.getLicensePlate()+") has this much emissions: " + thisEmission);
+//
+//        if (thisEmission <= emissionLimitInKg){
+//            System.out.println("This truck passes the emission limit \n");
+//        } else {
+//            System.out.println("This truck fails the emission test \n");
+//        }
 //        System.out.println("Truck " + this.getLicensePlate() + " Emissions: " + thisEmissionLimit + " kg, Limit: " + emissionLimitInKg + " kg");
         return thisEmission <= emissionLimitInKg;
 

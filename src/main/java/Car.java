@@ -15,17 +15,17 @@ public class Car extends Vehicle {
     public boolean isStreetLegal() {
         // emission limit in kg should be .35 kg
         double emissionLimitInKg = (double)EMISSIONS_LIMIT / 1000;
-        System.out.println("The emission limit is " + emissionLimitInKg + " kilograms");
+//        System.out.println("The emission limit is " + emissionLimitInKg + " kilograms");
         // let's say 77 kg is passed in
 
         double thisEmission = this.getEmissions() / 1000;
-        System.out.println("This car ("+this.getLicensePlate()+") emits this much pollution: " + thisEmission);
-        System.out.println("Car " + this.getLicensePlate() + " Emissions: " + thisEmission + " kg, Limit: " + emissionLimitInKg + " kg");
-        if (thisEmission <= emissionLimitInKg){
-            System.out.println("This car should be good to go \n");
-        } else {
-            System.out.println("This car fails the emission test \n");
-        }
+//        System.out.println("This car ("+this.getLicensePlate()+") emits this much pollution: " + thisEmission);
+//        System.out.println("Car " + this.getLicensePlate() + " Emissions: " + thisEmission + " kg, Limit: " + emissionLimitInKg + " kg");
+//        if (thisEmission <= emissionLimitInKg){
+//            System.out.println("This car should be good to go \n");
+//        } else {
+//            System.out.println("This car fails the emission test \n");
+//        }
         return thisEmission <= emissionLimitInKg;
 
 //        double emissionsInGrams = this.getEmissions() * 1000.0; // Convert emissions from kg to grams

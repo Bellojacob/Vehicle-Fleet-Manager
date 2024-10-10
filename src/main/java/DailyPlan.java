@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class DailyPlan {
@@ -100,135 +101,128 @@ public class DailyPlan {
         }
     }
 
-    // Assign drivers based on seniority check
-    public void assignDriversWithSeniorityCheck() {
-        // Sort drivers by seniority (hire date)
-        Collections.sort(drivers);
-
-        Driver lastAssignedDriver = null;  // Keep track of the last assigned driver for seniority comparison
-
-        for (Vehicle vehicle : vehicles) {
-            if (vehicle.isStreetLegal()) {
-                boolean driverAssigned = false;
-
-                // Loop through sorted drivers to find a match
-                for (Driver driver : drivers) {
-                    if (vehicle instanceof Truck) {
-                        // Check if driver has CDL and license is valid for a truck
-                        if (driver.isValidLicense(new Date()) && driver.isHasCDL() && vehicle.getDriver() == null) {
-                            vehicle.setDriver(driver);
-
-                            // Seniority check: Ensure the current driver is more senior than the last one
-                            if (lastAssignedDriver != null && driver.compareTo(lastAssignedDriver) > 0) {
-                                seniorityCheckPassed = false;
-                            }
-                            lastAssignedDriver = driver;
-                            driverAssigned = true;
-                            break;
-                        }
-                    } else {
-                        // Check if driver has a valid license for a car
-                        if (driver.isValidLicense(new Date()) && vehicle.getDriver() == null) {
-                            vehicle.setDriver(driver);
-
-                            // Seniority check: Ensure the current driver is more senior than the last one
-                            if (lastAssignedDriver != null && driver.compareTo(lastAssignedDriver) > 0) {
-                                seniorityCheckPassed = false;
-                            }
-                            lastAssignedDriver = driver;
-                            driverAssigned = true;
-                            break;
-                        }
-                    }
-                }
-
-                // If no driver was assigned, mark the vehicle as unfulfilled
-                if (!driverAssigned) {
-                    System.out.println("No suitable driver available for vehicle with license plate " + vehicle.getLicensePlate());
-                }
-            } else {
-                // Vehicle exceeds emissions standards
-                System.out.println(vehicle.getClass().getSimpleName() + " with license plate " + vehicle.getLicensePlate() + " exceeds the tailpipe emission standard.");
-            }
-        }
-
-        // Check if seniority passed
-        if (seniorityCheckPassed) {
-            System.out.println("Seniority check passed.");
-        } else {
-            System.out.println("Seniority check failed.");
-        }
+    public String toString(){
+        return dateOfWorkOrder + "\n"
+                + "Cars requested: " + carNums + ", Trucks requested: " + truckNums + "\n"
+                + orderFulfilled() +
+                seniorityCheck();
     }
 
-    // Generate the report for the current DailyPlan
-    @Override
-    public String toString() {
-        StringBuilder report = new StringBuilder();
+    public String orderFulfilled() {
+        // Sort drivers by hire date
+        Collections.sort(drivers, (d1, d2) -> d1.getHireDate().compareTo(d2.getHireDate()));
 
-        report.append("REPORT \n")
-                .append(dateOfWorkOrder).append("\n")
-                .append("Cars requested: ").append(carNums)
-                .append(", Trucks requested: ").append(truckNums).append("\n");
 
-        boolean allVehiclesAssigned = true;
-
-        report.append("DETAILS \n");
+        int carsAssigned = 0;
+        int trucksAssigned = 0;
 
         for (Vehicle vehicle : vehicles) {
-            if (vehicle.isStreetLegal()) {
-                if (vehicle.getDriver() != null) {
-                    // Print details of vehicle assignment
-                    report.append(vehicle.getClass().getSimpleName())
-                            .append(" with license plate ")
-                            .append(vehicle.getLicensePlate())
-                            .append(" assigned to ")
-                            .append(vehicle.getDriver().getName())
-                            .append(".\n");
-                } else {
-                    report.append(vehicle.getClass().getSimpleName())
-                            .append(" with license plate ")
-                            .append(vehicle.getLicensePlate())
-                            .append(" could not be assigned to a driver.\n");
-                    allVehiclesAssigned = false;
+            Driver assignedDriver = null;
+
+            for (Driver driver : drivers) {
+                if (driver.isValidLicense(new Date()) &&
+                        ((vehicle instanceof Truck && driver.isHasCDL()) || vehicle instanceof Car)) {
+                    assignedDriver = driver;
+                    break;
                 }
-            } else {
-                report.append(vehicle.getClass().getSimpleName())
-                        .append(" with license plate ")
-                        .append(vehicle.getLicensePlate())
-                        .append(" exceeds the tailpipe emission standard.\n");
-                allVehiclesAssigned = false;
+            }
+
+            if (assignedDriver != null) {
+                vehicle.setDriver(assignedDriver);
+                if (vehicle instanceof Car) {
+                    carsAssigned++;
+                } else if (vehicle instanceof Truck) {
+                    trucksAssigned++;
+                }
             }
         }
 
-        // Check if the order was fulfilled
-        if (allVehiclesAssigned) {
-            report.append("Order fulfilled.\n");
+        boolean orderFulfilled = (carsAssigned >= carNums) && (trucksAssigned >= truckNums);
+        if (orderFulfilled) {
+            return "Order fulfilled \n";
         } else {
-            report.append("Order not fulfilled.\n");
-        }
+            return "Order not fulfilled \n";
+        }    }
 
-        // Print seniority check result
-        if (seniorityCheckPassed) {
-            report.append("Seniority check passed.\n");
-        } else {
-            report.append("Seniority check failed.\n");
-        }
 
-        // Check if all drivers have valid licenses
-        boolean allDriversValid = true;
-        for (Driver driver : drivers) {
-            if (!driver.isValidLicense(new Date())) {
-                allDriversValid = false;
+
+
+    public String seniorityCheck() {
+        // Sort drivers by hire date
+        Collections.sort(drivers, (d1, d2) -> d1.getHireDate().compareTo(d2.getHireDate()));
+
+        int carsAssigned = 0;
+        int trucksAssigned = 0;
+        boolean seniorityCheckPassed = true;
+
+        for (Vehicle vehicle : vehicles) {
+            Driver assignedDriver = null;
+
+            for (Driver driver : drivers) {
+                if (driver.isValidLicense(new Date()) &&
+                        ((vehicle instanceof Truck && driver.isHasCDL()) || vehicle instanceof Car)) {
+                    assignedDriver = driver;
+                    break;
+                }
+            }
+
+            if (assignedDriver != null) {
+                vehicle.setDriver(assignedDriver);
+                if (vehicle instanceof Car) {
+                    carsAssigned++;
+                } else if (vehicle instanceof Truck) {
+                    trucksAssigned++;
+                }
+            } else {
+                seniorityCheckPassed = false;
                 break;
             }
         }
 
-        if (allDriversValid) {
-            report.append("All drivers have valid licenses.\n");
+        if (seniorityCheckPassed) {
+            return "Seniority check passed";
         } else {
-            report.append("Some drivers have invalid licenses.\n");
+            return "Seniority check failed";
+        }
+    }
+
+    public String getDetails() {
+        StringBuilder details = new StringBuilder();
+
+        for (Vehicle vehicle : vehicles) {
+            String licensePlate = vehicle.getLicensePlate();
+            Driver driver = vehicle.getDriver();
+            boolean exceedsEmissions = !vehicle.isStreetLegal();
+
+            if (exceedsEmissions) {
+                details.append(vehicle instanceof Truck ? "Truck" : "Car")
+                        .append(" with license plate ")
+                        .append(licensePlate)
+                        .append(" exceeds the tailpipe emission standard.\n");
+            } else if (driver != null) {
+                details.append(vehicle instanceof Truck ? "Truck" : "Car")
+                        .append(" with license plate ")
+                        .append(licensePlate)
+                        .append(" assigned to ")
+                        .append(driver.getName())
+                        .append(".\n");
+            }
         }
 
-        return report.toString();
+        boolean allLicensesValid = true;
+        for (Driver driver : drivers) {
+            if (!driver.isValidLicense(new Date())) {
+                details.append("Driver ")
+                        .append(driver.getName())
+                        .append(" has an expired license.\n");
+                allLicensesValid = false;
+            }
+        }
+
+        if (allLicensesValid) {
+            details.append("All drivers have valid licenses.");
+        }
+
+        return details.toString();
     }
 }

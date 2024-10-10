@@ -36,4 +36,8 @@ public class Driver extends Person implements Comparable<Driver>{
     public String getdLicense() {
         return dLicense;
     }
+
+    public Date getHireDate() {
+        return super.getHireDate();
+    }
 }
