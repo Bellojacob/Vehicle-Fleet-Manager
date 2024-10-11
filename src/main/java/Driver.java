@@ -1,3 +1,11 @@
+// Title:   Driver.java
+// Author:  Jacob Bello
+// Course:  CST 336
+// Date:    10/3/2024
+// Abstract: This Driver class is a child class of Person class, it has values for license expiration date, a trucking
+//           license (CDL), and drivers license number. We also have a driver compareTo method to compare hiring dates.
+//           We also have a method to check if a license is valid.
+
 //- licenseExp : Date
 //- hasCDL : boolean
 //- dLicense : String
@@ -39,5 +47,9 @@ public class Driver extends Person implements Comparable<Driver>{
 
     public Date getHireDate() {
         return super.getHireDate();
+    }
+
+    public String toString(){
+        return getName() + ", HIRED: " + getHireDate() + ", DL #: " + getdLicense() + ", DL EXP: " + getLicenseExp() + ", HAS CDL: " + isHasCDL();
     }
 }

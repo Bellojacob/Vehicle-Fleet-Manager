@@ -1,3 +1,14 @@
+// Title:   DailyPlan.java
+// Author:  Jacob Bello
+// Course:  CST 336
+// Date:    10/7/2024
+// Abstract: This DailyPlan class is the most crucial class in the program, we have several attributes such as,
+//           dateOfWorkOrder, number of cars, number of trucks, and arraylist for drivers and vehicles.
+//           We initially start by parsing all the data from the text file which is passed in, then we go line by line
+//           and make sure to store each important segment of information as variables and objects. Then we
+//           have a toString which prints how many vehicles to request of each type, and prints the results of
+//           orderFulfilled and senorityCheck methods. These methods assign drivers to their vehicles accordingly.
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -113,8 +124,31 @@ public class DailyPlan {
 
     // in this method we are going to check if the order was fulfilled correctly or not
     public String orderFulfilled() {
+        System.out.println("Drivers:");
+        for (Driver driver : drivers){
+            System.out.println(driver);
+        }
+        System.out.println("Vehicles:");
+        for (Vehicle vh : vehicles){
+            System.out.println(vh);
+        }
         // Sort drivers by hire date
-        Collections.sort(drivers, (d1, d2) -> d1.getHireDate().compareTo(d2.getHireDate()));
+        // print before sort
+        System.out.println("pre sort:");
+        for (Driver dr : drivers){
+            System.out.println(dr);
+        }
+        Collections.sort(drivers);
+        // print post sort
+        System.out.println("post sort");
+        for (Driver dr : drivers){
+            System.out.println(dr);
+        }
+//        for (int i = 0; i < drivers.size() - 1; i++) {
+//            drivers.get(i).compareTo(drivers.get(i + 1));
+//        }
+
+
 
         // keep track of how many vehicles of each type are assigned
         int carsAssigned = 0;
@@ -122,14 +156,19 @@ public class DailyPlan {
 
         // for each vehicle in the arraylist of vehicles, make each vehicle have a assignedDriver value of null
         for (Vehicle vehicle : vehicles) {
-            Driver assignedDriver = null;
+
+
 
             // then for each driver in driver arraylist, check if the driver has a valid license, and if the vehicle we
             // are currently on is a truck, if so then we need to check if the current driver has a CDL to drive the truck,
             // or if the the current vehicle is a car
             // then for the current vehicle, make the assignedDriver value equal to the current driver
+            Driver assignedDriver = null;
             for (Driver driver : drivers) {
-                if (driver.isValidLicense(new Date()) && ((vehicle instanceof Truck && driver.isHasCDL()) || vehicle instanceof Car)) {
+                if (driver.isValidLicense(new Date()) && ((vehicle instanceof Truck && driver.isHasCDL()))) {
+                    assignedDriver = driver;
+                    break;
+                } else if (driver.isValidLicense(new Date()) && vehicle instanceof Car) {
                     assignedDriver = driver;
                     break;
                 }
@@ -141,7 +180,7 @@ public class DailyPlan {
                 vehicle.setDriver(assignedDriver);
                 if (vehicle instanceof Car) {
                     carsAssigned++;
-                } else if (vehicle instanceof Truck) {
+                } else {
                     trucksAssigned++;
                 }
             }
@@ -152,18 +191,23 @@ public class DailyPlan {
         // if both are true, then return that we fulfilled the order
         // other return we did not fulfill the order
         boolean orderFulfilled = (carsAssigned >= carNums) && (trucksAssigned >= truckNums);
+
         if (orderFulfilled) {
             return "Order fulfilled \n";
+        } else if(carsAssigned < carNums){
+            return "Order not fulfilled: \n- Not enough street legal cars.\n";
+        } else if (trucksAssigned < truckNums) {
+            return "Order not fulfilled: \n- Not enough street legal trucks.\n";
         } else {
-            return "Order not fulfilled \n";
-        }    }
+            return "Order not fulfilled: \n- Unknown reason.\n";
+        }
+    }
 
 
-
-
-    public String seniorityCheck() {
+        public String seniorityCheck() {
         // Sort drivers by hire date
-        Collections.sort(drivers, (d1, d2) -> d1.getHireDate().compareTo(d2.getHireDate()));
+//        Collections.sort(drivers, (driver1, driver2) -> driver1.getHireDate().compareTo(driver2.getHireDate()));
+        Collections.sort(drivers);
 
         int carsAssigned = 0;
         int trucksAssigned = 0;
@@ -182,6 +226,7 @@ public class DailyPlan {
 
             if (assignedDriver != null) {
                 vehicle.setDriver(assignedDriver);
+                drivers.remove(assignedDriver);
                 if (vehicle instanceof Car) {
                     carsAssigned++;
                 } else if (vehicle instanceof Truck) {
@@ -200,26 +245,41 @@ public class DailyPlan {
         }
     }
 
+    // print out getDetails section
     public String getDetails() {
         StringBuilder details = new StringBuilder();
 
+        // iterate through each vehicle, get license plate, and driver for each. Check to make sure the vehicle is
+        // valid and doesn't exceed emissions. return info accordingly
         for (Vehicle vehicle : vehicles) {
             String licensePlate = vehicle.getLicensePlate();
             Driver driver = vehicle.getDriver();
             boolean exceedsEmissions = !vehicle.isStreetLegal();
 
             if (exceedsEmissions) {
-                details.append(vehicle instanceof Truck ? "Truck" : "Car")
-                        .append(" with license plate ")
-                        .append(licensePlate)
-                        .append(" exceeds the tailpipe emission standard.\n");
+                if (vehicle instanceof Truck) {
+                    details.append("Truck with license plate ")
+                            .append(licensePlate)
+                            .append(" exceeds the tailpipe emission standard.\n");
+                } else {
+                    details.append("Car with license plate ")
+                            .append(licensePlate)
+                            .append(" exceeds the tailpipe emission standard.\n");
+                }
             } else if (driver != null) {
-                details.append(vehicle instanceof Truck ? "Truck" : "Car")
-                        .append(" with license plate ")
-                        .append(licensePlate)
-                        .append(" assigned to ")
-                        .append(driver.getName())
-                        .append(".\n");
+                if (vehicle instanceof Truck) {
+                    details.append("Truck with license plate ")
+                            .append(licensePlate)
+                            .append(" assigned to ")
+                            .append(driver.getName())
+                            .append(".\n");
+                } else {
+                    details.append("Car with license plate ")
+                            .append(licensePlate)
+                            .append(" assigned to ")
+                            .append(driver.getName())
+                            .append(".\n");
+                }
             }
         }
 

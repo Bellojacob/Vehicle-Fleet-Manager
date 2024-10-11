@@ -1,3 +1,10 @@
+// Title:   Car.java
+// Author:  Jacob Bello
+// Course:  CST 336
+// Date:    10/3/2024
+// Abstract: This Car class is a child class of Vehicle, it holds all the attributes that Vehicle does as well as
+//           converting the emissions limit from grams to kg
+
 //- numPassengers : int
 //+ EMISSIONS_LIMIT : double
 //+ isStreetLegal() : boolean
@@ -35,5 +42,9 @@ public class Car extends Vehicle {
 
     public int getNumPassengers() {
         return numPassengers;
+    }
+
+    public String toString(){
+        return "CAR - License Plate #: " + getLicensePlate() + "passenger seating: " + getNumPassengers() +  " mileage: " + getMileage() + " emissions: " + getEmissions();
     }
 }

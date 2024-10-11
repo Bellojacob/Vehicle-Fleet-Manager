@@ -1,3 +1,10 @@
+// Title:   Truck.java
+// Author:  Jacob Bello
+// Course:  CST 336
+// Date:    10/3/2024
+// Abstract: This Truck class is a child class of Vehicle, it holds all the attributes that Vehicle does as well as
+//           converting the emissions limit from grams to kg. It also has attributes for capacity and towing capacity.
+
 //- loadCap : double
 //- towingCap : int
 //+ EMISSIONS_LIMIT : double
@@ -41,5 +48,9 @@ public class Truck extends Vehicle {
 
     public int getTowingCap() {
         return towingCap;
+    }
+
+    public String toString(){
+        return "TRUCK - License Plate #: " + getLicensePlate() + " loadCap: " + getLoadCap() + " towingCap: " + getTowingCap() + " mileage: " + getMileage() + " emissions: " + getEmissions();
     }
 }

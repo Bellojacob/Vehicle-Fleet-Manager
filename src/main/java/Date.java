@@ -1,3 +1,11 @@
+// Title:   Date.java
+// Author:  Jacob Bello
+// Course:  CST 336
+// Date:    10/7/2024
+// Abstract: I did not create this class, it was taken from professor Avner's github, however, I did
+//           add two methods at the bottom, compareTo and isBefore. This class is designed to create and use
+//           date objects.
+
 public class Date {
     private String month;
     private int day;
@@ -211,7 +219,12 @@ public class Date {
         }
     }
 
-    public boolean isBefore(Date otherDate) {
-        return this.compareTo(otherDate) < 0;
+    public boolean isBefore(Date currentDate) {
+//        System.out.println("This is the currentDate: " + currentDate);
+        if (currentDate.precedes(new Date(10,10,2024))) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

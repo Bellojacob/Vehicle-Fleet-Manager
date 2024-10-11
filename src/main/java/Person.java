@@ -1,3 +1,9 @@
+// Title:   Person.java
+// Author:  Jacob Bello
+// Course:  CST 336
+// Date:    10/7/2024
+// Abstract: This Person class holds values for name and the person's hire date.
+
 //- name: String
 //- hireDate: Date
 

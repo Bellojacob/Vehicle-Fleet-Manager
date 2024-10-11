@@ -1,3 +1,10 @@
+// Title:   Vehicle.java
+// Author:  Jacob Bello
+// Course:  CST 336
+// Date:    10/3/2024
+// Abstract: This is an abstract class which will be used to create car and truck objects. It should hold values such as
+//           licensePlate, emissions, driver, if streetLegal, and mileage.
+
 //- licensePlate: String
 //- emissions: double
 //- driver: Driver
