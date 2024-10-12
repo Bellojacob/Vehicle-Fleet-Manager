@@ -32,7 +32,7 @@ public class DailyPlan {
     }
 
     // Parse the file to get work order information, drivers, and vehicles
-    private void parseFile(String filepath) {
+    public void parseFile(String filepath) {
         File file = new File(filepath);
         try {
             Scanner scanner = new Scanner(file);
@@ -124,26 +124,26 @@ public class DailyPlan {
 
     // in this method we are going to check if the order was fulfilled correctly or not
     public String orderFulfilled() {
-        System.out.println("Drivers:");
-        for (Driver driver : drivers){
-            System.out.println(driver);
-        }
-        System.out.println("Vehicles:");
-        for (Vehicle vh : vehicles){
-            System.out.println(vh);
-        }
+//        System.out.println("Drivers:");
+//        for (Driver driver : drivers){
+//            System.out.println(driver);
+//        }
+//        System.out.println("Vehicles:");
+//        for (Vehicle vh : vehicles){
+//            System.out.println(vh);
+//        }
         // Sort drivers by hire date
         // print before sort
-        System.out.println("pre sort:");
-        for (Driver dr : drivers){
-            System.out.println(dr);
-        }
+//        System.out.println("pre sort:");
+//        for (Driver dr : drivers){
+//            System.out.println(dr);
+//        }
         Collections.sort(drivers);
         // print post sort
-        System.out.println("post sort");
-        for (Driver dr : drivers){
-            System.out.println(dr);
-        }
+//        System.out.println("post sort");
+//        for (Driver dr : drivers){
+//            System.out.println(dr);
+//        }
 //        for (int i = 0; i < drivers.size() - 1; i++) {
 //            drivers.get(i).compareTo(drivers.get(i + 1));
 //        }
@@ -206,7 +206,6 @@ public class DailyPlan {
 
         public String seniorityCheck() {
         // Sort drivers by hire date
-//        Collections.sort(drivers, (driver1, driver2) -> driver1.getHireDate().compareTo(driver2.getHireDate()));
         Collections.sort(drivers);
 
         int carsAssigned = 0;
@@ -283,20 +282,24 @@ public class DailyPlan {
             }
         }
 
-        boolean allLicensesValid = true;
-        for (Driver driver : drivers) {
-            if (!driver.isValidLicense(new Date())) {
-                details.append("Driver ")
-                        .append(driver.getName())
-                        .append(" has an expired license.\n");
-                allLicensesValid = false;
-            }
-        }
-
-        if (allLicensesValid) {
-            details.append("\nAll drivers have valid licenses.\n");
-        }
+        details.append(checkLicense());
 
         return details.toString();
     }
+
+    public String checkLicense(){
+        boolean allLicensesValid = true;
+        StringBuilder sb = new StringBuilder();
+        for (Driver driver : drivers) {
+            if (!driver.isValidLicense(new Date())) {
+                allLicensesValid = false;
+                sb.append("Driver ").append(driver.getName()).append(" has an expired license.\n");
+            }
+        }
+        if (allLicensesValid) {
+            sb.append("\nAll drivers have valid licenses.\n");
+        }
+        return sb.toString();
+    }
 }
+

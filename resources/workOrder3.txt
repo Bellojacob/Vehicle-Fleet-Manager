@@ -3,8 +3,8 @@
 4
 Damaris Fritsch,9/11/2005,D4342640,7/7/2025,false
 Austin Schumm,11/17/2001,T9927803,8/6/2025,false
-Amya Gusikowski,5/26/2014,D3873692,9/6/2026,true
-Dennis Doyle,6/17/1997,T5034360,10/27/2052,true
+Amya Gusikowski,5/26/2014,D3873692,9/6/1910,true
+Dennis Doyle,6/17/1997,T5034360,10/27/2025,true
 3
 8TKU472,14,4000,90000,41.2
 6COH817,2,2278,45
